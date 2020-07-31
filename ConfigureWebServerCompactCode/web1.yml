@@ -1,0 +1,20 @@
+- hosts: apacheWebServer
+  vars:
+    - packageName: "httpd"
+    - username: "Ankush"
+  tasks:
+    - package:
+        name: "{{ packageName }}"
+        state: present
+      register: x
+    - copy:
+        src: "index.htm"
+        dest: "/var/www/html/"
+      ignore_errors: yes
+    - service:
+        name: "{{ packageName }}"
+        state: started
+    - debug:
+        msg: "Hello {{ username }}"
+    - debug:
+        var: x.rc
