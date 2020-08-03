@@ -1,0 +1,13 @@
+- hosts: apacheWebServer
+  vars:
+    - dnsip: "192.168.43.1"
+  tasks:
+    - template:
+        src: "dns.conf.j2"
+        dest: "/etc/resolv.conf"
+      register: x
+      ignore_errors: yes
+    - debug:
+        var: x.failed
+    - command: date
+      when: x.failed == false
