@@ -1,0 +1,15 @@
+- hosts: 192.168.43.249
+  tasks:
+          - debug:
+                  msg: "Free RAM is: {{ ansible_memfree_mb }}"
+
+          - package:
+                  name: httpd
+                  state: present
+            when: ansible_os_family == "RedHat"
+
+          - package:
+                  name: net-tools
+                  state: present
+            when: ansible_os_family == "RedHat" and ansible_memfree_mb >= 20
+

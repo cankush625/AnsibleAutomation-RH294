@@ -1,0 +1,4 @@
+- hosts: 192.168.43.249
+  tasks:
+    - debug:
+        msg: "Target OS name is: {{ ansible_os_family }}"
