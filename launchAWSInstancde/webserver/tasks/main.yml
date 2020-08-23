@@ -1,0 +1,37 @@
+---
+# tasks file for webserver
+
+- name: install httpd package
+  package:
+          name: "httpd"
+          state: present
+  when: ansible_distribution == "Amazon"
+  register: x
+
+- name: document root dir
+  file:
+          state: directory
+          dest: "/var/www/ankush/"
+  register: dr_dir_status
+  tags: webgit
+
+- name: conf web server
+  template:
+          dest: "/etc/httpd/conf.d/ankush.conf"
+          src: "/home/cankush/AnsibleAutomation-RH294/ansible_galaxy/webserver/files/localconf.conf"
+  when: x.rc == 0
+  notify: service httpd
+
+- name: copy webpage from url
+  get_url:
+          dest: "/var/www/ankush/"
+          url: "https://raw.githubusercontent.com/cankush625/Web/master/home.html"
+  when: dr_dir_status.failed == false
+  tags: webgit
+
+
+
+- name: start httpd service
+  service:
+          name: "httpd"
+          state: started
