@@ -1,0 +1,22 @@
+- hosts: 192.168.43.20
+  tasks:
+          - package:
+                  name: "httpd"
+                  state: present
+          - copy:
+                  content: "Web Page!"
+                  dest: /var/www/html/index.html
+          - service:
+                  name: "httpd"
+                  state: started
+                  enabled: yes
+            changed_when: true
+          - firewalld:
+                  port: 80/tcp
+                  state: enabled
+                  immediate: yes
+          - lineinfile:
+                  path: /etc/httpd/conf/httpd.conf
+                  line: "Listen 8123"
+                  state: started
+                  insertafter: "Listen 80"
