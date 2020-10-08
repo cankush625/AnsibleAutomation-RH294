@@ -1,0 +1,6 @@
+---
+# vars file for ec2_instance
+count: 1
+tag_name: "none"
+accesskey: "none"
+secretkey: "none"

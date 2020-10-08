@@ -1,0 +1,19 @@
+- name: Provisioning OS on AWS
+  ec2:
+          key_name: "cankush625"
+          instance_type: "t2.micro"
+          image: "ami-0ebc1ac48dfd14136"
+          wait: yes
+          instance_tags:
+                  Name: "{{ tag_name }}"
+          exact_count: "{{ count }}"
+          vpc_subnet_id: "subnet-2f0b3147"
+          count_tag:
+                  Name: "{{ tag_name }}"
+          assign_public_ip: yes
+          region: "ap-south-1"
+          group_id: "sg-0a3cf52af06219e50"
+          aws_access_key: "{{ accesskey }}"
+          aws_secret_key: "{{ secretkey }}"
+  register: result
+

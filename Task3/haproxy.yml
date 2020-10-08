@@ -1,0 +1,25 @@
+- hosts: localhost
+  vars_files:
+          - secret.yml
+  roles:
+          - role: ec2_instance
+            count: 3
+            tag_name: "Auto_webserver"
+            accesskey: "{{ aws_access }}"
+            secretkey: "{{ aws_secret }}"
+
+          - role: ec2_instance
+            count: 1
+            tag_name: "Auto_loadbalancer"
+            accesskey: "{{ aws_access }}"
+            secretkey: "{{ aws_secret }}"
+
+- hosts: tag_Name_Auto_webserver
+  roles:
+          - role: webserver
+            port: 8123
+
+- hosts: tag_Name_Auto_loadbalancer
+  roles:
+          - role: haproxy
+            port: 8123
