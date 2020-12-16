@@ -1,0 +1,27 @@
+- hosts: localhost
+  vars:
+    - loadbalancer_port: 8080
+  tasks:
+    - name: Install HAProxy Software
+      package: 
+        name: "haproxy"
+        state: present
+      register: haproxyinstall
+
+    - name: haproxy config
+      template:
+        dest: "/etc/haproxy/haproxy.cfg"
+        src: "/home/cankush/AnsibleAutomation-RH294/configureLoadBalancerHAProxy/haproxy.cfg.j2"
+      when: haproxyinstall.rc == 0
+      notify: haproxy restart
+
+    - name: start haproxy services
+      service:
+        name: "haproxy"
+        state: started
+
+  handlers:
+    - name: haproxy restart
+      service:
+        name: "haproxy"
+        state: restarted
