@@ -1,0 +1,10 @@
+- hosts: loadbalancer
+  roles:
+  - role: haproxy1
+    port: 8123
+
+
+- hosts: apache_webserver
+  roles:
+  - role: webserver1
+    port: 8123
